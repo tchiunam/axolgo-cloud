@@ -5,6 +5,9 @@ go 1.18
 require (
 	github.com/aws/aws-sdk-go-v2 v1.16.4
 	github.com/aws/aws-sdk-go-v2/config v1.15.9
+	github.com/aws/aws-sdk-go-v2/service/rds v1.21.2
+	github.com/tchiunam/axolgo-lib v0.0.0-20220601131224-3ddcd0cda124
+	k8s.io/klog/v2 v2.60.1
 )
 
 require (
@@ -17,6 +20,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.11.7 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.6 // indirect
 	github.com/aws/smithy-go v1.11.2 // indirect
+	github.com/go-logr/logr v1.2.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )
 
 replace github.com/tchiunam/axolgo-lib => ../axolgo-lib
