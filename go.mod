@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/aws/aws-sdk-go-v2 v1.16.4
 	github.com/aws/aws-sdk-go-v2/config v1.15.9
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.45.0
 	github.com/aws/aws-sdk-go-v2/service/rds v1.21.2
 	github.com/tchiunam/axolgo-lib v0.0.0-20220601131224-3ddcd0cda124
 	k8s.io/klog/v2 v2.60.1
