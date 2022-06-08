@@ -48,6 +48,7 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 	// Set the Apply Method based on the Apply Type.
 	var params []awsTypes.Parameter
 	for _, p := range staticParameters {
+		klog.V(6).InfoS("static parameter", *p.Name, *p.Value)
 		params = append(
 			params,
 			awsTypes.Parameter{
@@ -57,6 +58,7 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 			})
 	}
 	for _, p := range dynamicParameters {
+		klog.V(6).InfoS("dynamic parameter", *p.Name, *p.Value)
 		params = append(
 			params,
 			awsTypes.Parameter{
