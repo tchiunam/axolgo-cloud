@@ -31,7 +31,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/rds"
 	awsTypes "github.com/aws/aws-sdk-go-v2/service/rds/types"
-	axolgoBase "github.com/tchiunam/axolgo-aws/base"
+	axolgoawsutil "github.com/tchiunam/axolgo-aws/util"
 	"github.com/tchiunam/axolgo-lib/types"
 )
 
@@ -55,19 +55,19 @@ func ModifyDBClusterParameterGroup(c context.Context, api ModifyDBClusterParamet
 	return api.ModifyDBClusterParameterGroup(c, input)
 }
 
-// Modify the parameters of a DB Cluster Parameter Group.
-func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameters []types.Parameter, dynamicParameters []types.Parameter, optFns ...func(*axolgoBase.AWSConfigOptions)) (aws.Config, error) {
+// Modify the parameters of a DB Cluster Parameter Group
+func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameters []types.Parameter, dynamicParameters []types.Parameter, optFns ...func(*axolgoawsutil.AWSConfigOptions) error) (aws.Config, error) {
 	paramsSize := len(staticParameters) + len(dynamicParameters)
 	klog.Infof("Parameter Group name: %v", parameterGroupName)
 	klog.Infof("No. of parameters to set: %v", paramsSize)
 
-	cfg, err := axolgoBase.LoadAWSConfig(axolgoBase.WithRegion("ap-southeast-1"))
+	cfg, err := axolgoawsutil.LoadAWSConfig(optFns...)
 	if err != nil {
 		return cfg, err
 	}
 	client := rds.NewFromConfig(cfg)
 
-	// Set the Apply Method based on the Apply Type.
+	// Set the Apply Method based on the Apply Type
 	var params []awsTypes.Parameter
 	for _, p := range staticParameters {
 		klog.V(6).InfoS("static parameter", *p.Name, *p.Value)
@@ -90,10 +90,10 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 			})
 	}
 
-	// AWS has a restriction that a maximum of 20 parameters can be modified in a single request.
+	// AWS has a restriction that a maximum of 20 parameters can be modified in a single request
 	const batchSize int = 20
 
-	// Modify parameters in batches.
+	// Modify parameters in batches
 	for batchNo := 0; batchSize*batchNo < paramsSize; batchNo++ {
 		start := batchSize * batchNo
 		end := start + batchSize
@@ -107,7 +107,7 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 		}
 
 		klog.Infof("Sending the update of batch %v", batchNo)
-		// No useful information in the result metadata.
+		// No useful information in the result metadata
 		_, err := ModifyDBClusterParameterGroup(context.TODO(), client, input)
 		if err != nil {
 			return cfg, fmt.Errorf("Failed to modify Cluster Parameter Group %q: %v", parameterGroupName, err)

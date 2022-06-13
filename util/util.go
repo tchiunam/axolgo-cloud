@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package base
+package util
 
 import (
 	"context"
@@ -28,6 +28,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"k8s.io/klog/v2"
 )
 
 // AWSConfigOptionsFunc is a type alias for AWSConfigOptions functional option
@@ -52,12 +53,12 @@ func LoadAWSConfig(optFns ...func(*AWSConfigOptions) error) (aws.Config, error) 
 		}
 	}
 
-	region := getDefaultRegion()
-	if options.Region != "" {
-		region = options.Region
+	if options.Region == "" {
+		options.Region = getDefaultRegion()
+		klog.V(1).InfoS("use default AWS region", "region", options.Region)
 	}
 
-	cfg, err = config.LoadDefaultConfig(context.TODO(), config.WithRegion(region))
+	cfg, err = config.LoadDefaultConfig(context.TODO(), config.WithRegion(options.Region))
 	if err != nil {
 		return cfg, fmt.Errorf("Fail to load AWS configuration: %v", err)
 	}
@@ -66,7 +67,7 @@ func LoadAWSConfig(optFns ...func(*AWSConfigOptions) error) (aws.Config, error) 
 }
 
 // WithRegion is a helper function to construct functional options
-// that sets Region on config's LoadOptions.
+// that sets Region on config's AWSConfigOptions.
 // If multiple WithRegion calls are made, the last call overrides
 // the previous call values.
 func WithRegion(v string) AWSConfigOptionsFunc {

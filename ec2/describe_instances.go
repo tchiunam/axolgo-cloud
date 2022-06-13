@@ -28,7 +28,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
-	axolgoBase "github.com/tchiunam/axolgo-aws/base"
+	axolgoawsutil "github.com/tchiunam/axolgo-aws/util"
 )
 
 // EC2DescribeInstancesAPI defines the interface for the DescribeInstances function.
@@ -51,9 +51,9 @@ func DescribeInstances(c context.Context, api EC2DescribeInstancesAPI, input *ec
 	return api.DescribeInstances(c, input)
 }
 
-// Describe EC2 instances.
-func RunDescribeInstances(input *ec2.DescribeInstancesInput, optFns ...func(*axolgoBase.AWSConfigOptions)) (aws.Config, *ec2.DescribeInstancesOutput, error) {
-	cfg, err := axolgoBase.LoadAWSConfig(axolgoBase.WithRegion("ap-southeast-1"))
+// Describe EC2 instances
+func RunDescribeInstances(input *ec2.DescribeInstancesInput, optFns ...func(*axolgoawsutil.AWSConfigOptions) error) (aws.Config, *ec2.DescribeInstancesOutput, error) {
+	cfg, err := axolgoawsutil.LoadAWSConfig(optFns...)
 	if err != nil {
 		return cfg, nil, err
 	}
