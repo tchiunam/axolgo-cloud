@@ -31,7 +31,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/rds"
 	awsTypes "github.com/aws/aws-sdk-go-v2/service/rds/types"
-	axolgoawsutil "github.com/tchiunam/axolgo-aws/util"
+	"github.com/tchiunam/axolgo-aws/util"
 	"github.com/tchiunam/axolgo-lib/types"
 )
 
@@ -56,12 +56,12 @@ func ModifyDBParameterGroup(c context.Context, api ModifyDBParameterGroupAPI, in
 }
 
 // Modify the parameters of a DB Parameter Group
-func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []types.Parameter, dynamicParameters []types.Parameter, optFns ...func(*axolgoawsutil.AWSConfigOptions) error) (aws.Config, error) {
+func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []types.Parameter, dynamicParameters []types.Parameter, optFns ...func(*util.AWSConfigOptions) error) (aws.Config, error) {
 	paramsSize := len(staticParameters) + len(dynamicParameters)
 	klog.Infof("Parameter Group name: %v", parameterGroupName)
 	klog.Infof("No. of parameters to set: %v", paramsSize)
 
-	cfg, err := axolgoawsutil.LoadAWSConfig(optFns...)
+	cfg, err := util.LoadAWSConfig(optFns...)
 	if err != nil {
 		return cfg, err
 	}

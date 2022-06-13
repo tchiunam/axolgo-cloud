@@ -28,7 +28,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
-	axolgoawsutil "github.com/tchiunam/axolgo-aws/util"
+	"github.com/tchiunam/axolgo-aws/util"
 )
 
 // EC2DescribeInstancesAPI defines the interface for the DescribeInstances function.
@@ -52,8 +52,8 @@ func DescribeInstances(c context.Context, api EC2DescribeInstancesAPI, input *ec
 }
 
 // Describe EC2 instances
-func RunDescribeInstances(input *ec2.DescribeInstancesInput, optFns ...func(*axolgoawsutil.AWSConfigOptions) error) (aws.Config, *ec2.DescribeInstancesOutput, error) {
-	cfg, err := axolgoawsutil.LoadAWSConfig(optFns...)
+func RunDescribeInstances(input *ec2.DescribeInstancesInput, optFns ...func(*util.AWSConfigOptions) error) (aws.Config, *ec2.DescribeInstancesOutput, error) {
+	cfg, err := util.LoadAWSConfig(optFns...)
 	if err != nil {
 		return cfg, nil, err
 	}
