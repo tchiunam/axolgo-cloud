@@ -38,7 +38,8 @@ import (
 // ModifyDBParameterGroupAPI defines the interface for the ModifyDBParameterGroup function.
 // We use this interface to test the function using a mocked service.
 type ModifyDBParameterGroupAPI interface {
-	ModifyDBParameterGroup(ctx context.Context,
+	ModifyDBParameterGroup(
+		ctx context.Context,
 		params *rds.ModifyDBParameterGroupInput,
 		optFns ...func(*rds.Options)) (*rds.ModifyDBParameterGroupOutput, error)
 }
@@ -68,6 +69,7 @@ func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []typ
 	client := rds.NewFromConfig(cfg)
 
 	// Set the Apply Method based on the Apply Type
+	// Load static parameters
 	var params []awsTypes.Parameter
 	for _, p := range staticParameters {
 		klog.V(6).InfoS("static parameter", *p.Name, *p.Value)
@@ -79,6 +81,7 @@ func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []typ
 				ParameterValue: aws.String(*p.Value),
 			})
 	}
+	// Load dynamic parameters
 	for _, p := range dynamicParameters {
 		klog.V(6).InfoS("dynamic parameter", *p.Name, *p.Value)
 		params = append(
@@ -100,6 +103,7 @@ func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []typ
 		if end >= paramsSize {
 			end = paramsSize - 1
 		}
+		// Extract parameters for this batch
 		batchParams := params[start:end]
 		input := &rds.ModifyDBParameterGroupInput{
 			DBParameterGroupName: &parameterGroupName,

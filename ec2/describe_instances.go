@@ -34,12 +34,13 @@ import (
 // EC2DescribeInstancesAPI defines the interface for the DescribeInstances function.
 // We use this interface to test the function using a mocked service.
 type EC2DescribeInstancesAPI interface {
-	DescribeInstances(ctx context.Context,
+	DescribeInstances(
+		ctx context.Context,
 		params *ec2.DescribeInstancesInput,
 		optFns ...func(*ec2.Options)) (*ec2.DescribeInstancesOutput, error)
 }
 
-// GetInstances retrieves information about EC2 instance.
+// DescribeInstances retrieves information about EC2 instance.
 // Inputs:
 //     c is the context of the method call, which includes the AWS Region.
 //     api is the interface that defines the method call.

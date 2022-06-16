@@ -38,7 +38,8 @@ import (
 // ModifyDBClusterParameterGroupAPI defines the interface for the ModifyDBClusterParameterGroup function.
 // We use this interface to test the function using a mocked service.
 type ModifyDBClusterParameterGroupAPI interface {
-	ModifyDBClusterParameterGroup(ctx context.Context,
+	ModifyDBClusterParameterGroup(
+		ctx context.Context,
 		params *rds.ModifyDBClusterParameterGroupInput,
 		optFns ...func(*rds.Options)) (*rds.ModifyDBClusterParameterGroupOutput, error)
 }
@@ -68,6 +69,7 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 	client := rds.NewFromConfig(cfg)
 
 	// Set the Apply Method based on the Apply Type
+	// Load static parameters
 	var params []awsTypes.Parameter
 	for _, p := range staticParameters {
 		klog.V(6).InfoS("static parameter", *p.Name, *p.Value)
@@ -79,6 +81,7 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 				ParameterValue: aws.String(*p.Value),
 			})
 	}
+	// Load dynamic parameters
 	for _, p := range dynamicParameters {
 		klog.V(6).InfoS("dynamic parameter", *p.Name, *p.Value)
 		params = append(
@@ -100,6 +103,7 @@ func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameter
 		if end >= paramsSize {
 			end = paramsSize - 1
 		}
+		// Extract parameters for this batch
 		batchParams := params[start:end]
 		input := &rds.ModifyDBClusterParameterGroupInput{
 			DBClusterParameterGroupName: &parameterGroupName,
