@@ -1,4 +1,4 @@
-module github.com/tchiunam/axolgo-aws
+module github.com/tchiunam/axolgo-cloud
 
 go 1.18
 

@@ -31,33 +31,33 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/rds"
 	awsTypes "github.com/aws/aws-sdk-go-v2/service/rds/types"
-	"github.com/tchiunam/axolgo-aws/util"
+	"github.com/tchiunam/axolgo-cloud/aws/util"
 	"github.com/tchiunam/axolgo-lib/types"
 )
 
-// ModifyDBParameterGroupAPI defines the interface for the ModifyDBParameterGroup function.
+// ModifyDBClusterParameterGroupAPI defines the interface for the ModifyDBClusterParameterGroup function.
 // We use this interface to test the function using a mocked service.
-type ModifyDBParameterGroupAPI interface {
-	ModifyDBParameterGroup(
+type ModifyDBClusterParameterGroupAPI interface {
+	ModifyDBClusterParameterGroup(
 		ctx context.Context,
-		params *rds.ModifyDBParameterGroupInput,
-		optFns ...func(*rds.Options)) (*rds.ModifyDBParameterGroupOutput, error)
+		params *rds.ModifyDBClusterParameterGroupInput,
+		optFns ...func(*rds.Options)) (*rds.ModifyDBClusterParameterGroupOutput, error)
 }
 
-// ModifyDBParameterGroup modifies the DB Parameter Group.
+// ModifyDBClusterParameterGroup modifies the DB Cluster Parameter Group.
 // Inputs:
 //     c is the context of the method call, which includes the AWS Region.
 //     api is the interface that defines the method call.
 //     input defines the input arguments to the service call.
 // Output:
-//     If success, a ModifyDBParameterGroupOutput object containing the result of the service call and nil.
-//     Otherwise, nil and an error from the call to DescribeDBParameterGroup.
-func ModifyDBParameterGroup(c context.Context, api ModifyDBParameterGroupAPI, input *rds.ModifyDBParameterGroupInput) (*rds.ModifyDBParameterGroupOutput, error) {
-	return api.ModifyDBParameterGroup(c, input)
+//     If success, a ModifyDBClusterParameterGroupOutput object containing the result of the service call and nil.
+//     Otherwise, nil and an error from the call to DescribeDBClusterParameterGroup.
+func ModifyDBClusterParameterGroup(c context.Context, api ModifyDBClusterParameterGroupAPI, input *rds.ModifyDBClusterParameterGroupInput) (*rds.ModifyDBClusterParameterGroupOutput, error) {
+	return api.ModifyDBClusterParameterGroup(c, input)
 }
 
-// Modify the parameters of a DB Parameter Group
-func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []types.Parameter, dynamicParameters []types.Parameter, optFns ...func(*util.AWSConfigOptions) error) (aws.Config, error) {
+// Modify the parameters of a DB Cluster Parameter Group
+func RunModifyDBClusterParameterGroup(parameterGroupName string, staticParameters []types.Parameter, dynamicParameters []types.Parameter, optFns ...func(*util.AWSConfigOptions) error) (aws.Config, error) {
 	paramsSize := len(staticParameters) + len(dynamicParameters)
 	klog.Infof("Parameter Group name: %v", parameterGroupName)
 	klog.Infof("No. of parameters to set: %v", paramsSize)
@@ -96,7 +96,7 @@ func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []typ
 	// AWS has a restriction that a maximum of 20 parameters can be modified in a single request
 	const batchSize int = 20
 
-	// Modify parameters in batches.
+	// Modify parameters in batches
 	for batchNo := 0; batchSize*batchNo < paramsSize; batchNo++ {
 		start := batchSize * batchNo
 		end := start + batchSize
@@ -105,16 +105,16 @@ func RunModifyDBParameterGroup(parameterGroupName string, staticParameters []typ
 		}
 		// Extract parameters for this batch
 		batchParams := params[start:end]
-		input := &rds.ModifyDBParameterGroupInput{
-			DBParameterGroupName: &parameterGroupName,
-			Parameters:           batchParams,
+		input := &rds.ModifyDBClusterParameterGroupInput{
+			DBClusterParameterGroupName: &parameterGroupName,
+			Parameters:                  batchParams,
 		}
 
 		klog.Infof("Sending the update of batch %v", batchNo)
 		// No useful information in the result metadata
-		_, err := ModifyDBParameterGroup(context.TODO(), client, input)
+		_, err := ModifyDBClusterParameterGroup(context.TODO(), client, input)
 		if err != nil {
-			return cfg, fmt.Errorf("Failed to modify Parameter Group %q: %v", parameterGroupName, err)
+			return cfg, fmt.Errorf("Failed to modify Cluster Parameter Group %q: %v", parameterGroupName, err)
 		}
 	}
 
