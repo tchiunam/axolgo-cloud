@@ -1,4 +1,9 @@
+<img src="images/axolgo-logo-transparent.png" width="50%" />
+
 # axolgo-cloud, the Axolotl Cloud Library in Golang
+[![Go](https://github.com/tchiunam/axolgo-cloud/actions/workflows/go.yml/badge.svg)](https://github.com/tchiunam/axolgo-cloud/actions/workflows/go.yml)
+[![Version](https://img.shields.io/badge/Version-v0.0.3-yellow.svg)](https://github.com/tchiunam/axolgo-lib/releases/tag/v0.0.3)
+[![codecov](https://codecov.io/gh/tchiunam/axolgo-cloud/branch/main/graph/badge.svg?token=7Q6I4OXAS8)](https://codecov.io/gh/tchiunam/axolgo-cloud)
 [![CodeQL](https://github.com/tchiunam/axolgo-cloud/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tchiunam/axolgo-cloud/actions/workflows/codeql-analysis.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -23,6 +28,10 @@ go get github.com/tchiunam/axolgo-cloud@none
 ```
 
 See 'go help get' or https://golang.org/ref/mod#go-get for details.
+
+## Test report
+## Code Coverage graph
+![Code Coverage graph](https://codecov.io/gh/tchiunam/axolgo-cloud/branch/main/graphs/tree.svg?token=7Q6I4OXAS8)
 
 ---
 #### See more  

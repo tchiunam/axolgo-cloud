@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.45.0
 	github.com/aws/aws-sdk-go-v2/service/rds v1.21.2
 	github.com/googleapis/gax-go/v2 v2.4.0
-	github.com/tchiunam/axolgo-lib v0.0.2
+	github.com/tchiunam/axolgo-lib v0.0.3
 	google.golang.org/api v0.86.0
 	google.golang.org/genproto v0.0.0-20220630174209-ad1d48641aa7
 	k8s.io/klog/v2 v2.60.1
@@ -39,5 +39,3 @@ require (
 	google.golang.org/grpc v1.47.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
-
-replace github.com/tchiunam/axolgo-lib => ../axolgo-lib
