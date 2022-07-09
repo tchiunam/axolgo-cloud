@@ -1,3 +1,5 @@
+<img src="images/axolgo-logo-transparent.png" width="50%" />
+
 # axolgo-cloud, the Axolotl Cloud Library in Golang
 [![CodeQL](https://github.com/tchiunam/axolgo-cloud/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tchiunam/axolgo-cloud/actions/workflows/codeql-analysis.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
