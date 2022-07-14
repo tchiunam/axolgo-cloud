@@ -33,24 +33,24 @@ import (
 // and expects error since the AWS credentials are not set.
 func TestRunDescribeInstances(t *testing.T) {
 	cases := map[string]struct {
-		Input               *ec2.DescribeInstancesInput
-		ExpectStringInError string
+		input               *ec2.DescribeInstancesInput
+		expectStringInError string
 	}{
 		"nil input": {
-			Input:               nil,
-			ExpectStringInError: "failed to retrieve credentials",
+			input:               nil,
+			expectStringInError: "failed to retrieve credentials",
 		},
 		"input with no filter": {
-			Input:               &ec2.DescribeInstancesInput{Filters: nil},
-			ExpectStringInError: "failed to retrieve credentials",
+			input:               &ec2.DescribeInstancesInput{Filters: nil},
+			expectStringInError: "failed to retrieve credentials",
 		},
 	}
 
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
-			_, _, err := RunDescribeInstances(c.Input)
-			if !util.ErrorContains(err, c.ExpectStringInError) {
-				t.Errorf("Expected error containing %q, got %s", c.ExpectStringInError, err)
+			_, _, err := RunDescribeInstances(c.input)
+			if !util.ErrorContains(err, c.expectStringInError) {
+				t.Errorf("Expected error containing %q, got %s", c.expectStringInError, err)
 			}
 		})
 	}
