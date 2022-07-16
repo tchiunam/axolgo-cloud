@@ -23,10 +23,10 @@ THE SOFTWARE.
 package ec2
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
-	"github.com/tchiunam/axolgo-lib/util"
 )
 
 // TestRunDescribeInstances calls RunDescribeInstances
@@ -49,7 +49,7 @@ func TestRunDescribeInstances(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			_, _, err := RunDescribeInstances(c.input)
-			if !util.ErrorContains(err, c.expectStringInError) {
+			if !strings.Contains(err.Error(), c.expectStringInError) {
 				t.Errorf("Expected error containing %q, got %s", c.expectStringInError, err)
 			}
 		})
