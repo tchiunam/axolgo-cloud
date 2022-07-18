@@ -9,6 +9,8 @@
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/tchiunam/axolgo-cloud)](https://pkg.go.dev/github.com/tchiunam/axolgo-cloud)
 [![Sourcegraph](https://sourcegraph.com/github.com/tchiunam/axolgo-cloud/-/badge.svg)](https://sourcegraph.com/github.com/tchiunam/axolgo-cloud?badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/tchiunam/axolgo-cloud)](https://github.com/tchiunam/axolgo-cloud)
+[![Repository Size](https://img.shields.io/github/repo-size/tchiunam/axolgo-cloud.svg?label=Repo%20size)](https://github.com/tchiunam/axolgo-cloud)
 
 This is the cloud library of the Axolotl series in Golang. It is a middle layer for the application or CLI to use AWS and GCP. The basic calls like loading AWS configuration is handled for you. The difficult part of using Google API in Golang is handled for you. The client calls are also wrapped so you can focus on building your business logic. The interfaces and functions are designed to be more friendly to command line use cases.
 
