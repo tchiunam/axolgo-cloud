@@ -23,7 +23,10 @@ THE SOFTWARE.
 package util
 
 import (
+	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // TestLoadAWSConfig calls LoadAWSConfig and expects nothing to happen
@@ -31,28 +34,55 @@ import (
 func TestLoadAWSConfig(t *testing.T) {
 	cases := map[string]struct {
 		optFns       func(*AWSConfigOptions) error
-		expectString string
+		expectRegion string
 	}{
 		"nil input": {
 			optFns:       WithRegion("us-east-1"),
-			expectString: "us-east-1",
+			expectRegion: "us-east-1",
 		},
 		"input with no filter": {
 			optFns:       WithRegion("eu-west-1"),
-			expectString: "eu-west-1",
+			expectRegion: "eu-west-1",
+		},
+		"input with empty region": {
+			optFns:       WithRegion(""),
+			expectRegion: "ap-east-1",
 		},
 	}
 
-	// region in the config file should equal to expectString
+	// region in the config file should equal to expectRegion
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			cfg, err := LoadAWSConfig(c.optFns)
-			if err != nil {
-				t.Errorf("LoadAWSConfig(%T) = %v, want %v", c.optFns, err, nil)
-			}
-			if cfg.Region != c.expectString {
-				t.Errorf("AWSConfig.Region = %q, want %q", cfg.Region, c.expectString)
-			}
+			assert.NoError(t, err, "LoadAWSConfig(%T) = %v, want %v", c.optFns, err, nil)
+			assert.Equal(t, c.expectRegion, cfg.Region, "Expected region %s, got %s", c.expectRegion, cfg.Region)
+		})
+	}
+}
+
+// MockAWSConfigOptions is a mock implementation of AWSConfigOptions
+// that can be used for testing error.
+func MockWithAWSConfigError(v string) AWSConfigOptionsFunc {
+	return func(o *AWSConfigOptions) error {
+		o.Region = v
+		return fmt.Errorf("mock error")
+	}
+}
+
+func TestLoadAWSConfigInvalid(t *testing.T) {
+	cases := map[string]struct {
+		optFns func(*AWSConfigOptions) error
+	}{
+		"nil input": {
+			optFns: MockWithAWSConfigError("us-east-1"),
+		},
+	}
+
+	// Test that LoadAWSConfig returns an error
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			_, err := LoadAWSConfig(c.optFns)
+			assert.Error(t, err, "LoadAWSConfig(%T) = %v, want %v", c.optFns, err, nil)
 		})
 	}
 }

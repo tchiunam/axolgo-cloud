@@ -238,6 +238,8 @@ github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PK
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/tchiunam/axolgo-lib v0.0.4 h1:7cdv021qdDIHphoKm25g+dzVjVl7WvD1mnraHewrAuI=
 github.com/tchiunam/axolgo-lib v0.0.4/go.mod h1:34hBjyl0+4V+ugIj6AoH2bzHiuoxgU1ZQcGa3KGnnV4=
+github.com/tchiunam/axolgo-lib v0.1.0 h1:bgPvv3G81dsvvaNaI2YM/yJBbpLlZvrOik7ZlBGv3pg=
+github.com/tchiunam/axolgo-lib v0.1.0/go.mod h1:M/4Z8sQzhxxjDCANRpeQ9gfCf5NH87K52EwDUB0Bd6I=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
