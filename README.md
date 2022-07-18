@@ -2,7 +2,7 @@
 
 # axolgo-cloud, the Axolotl Cloud Library in Golang
 [![Go](https://github.com/tchiunam/axolgo-cloud/actions/workflows/go.yml/badge.svg)](https://github.com/tchiunam/axolgo-cloud/actions/workflows/go.yml)
-[![Version](https://img.shields.io/badge/Version-v0.0.4-yellow.svg)](https://github.com/tchiunam/axolgo-cloud/releases/tag/v0.0.4)
+[![Version](https://img.shields.io/github/v/release/tchiunam/axolgo-cloud?sort=semver)](https://github.com/tchiunam/axolgo-cloud/releases)
 [![codecov](https://codecov.io/gh/tchiunam/axolgo-cloud/branch/main/graph/badge.svg?token=7Q6I4OXAS8)](https://codecov.io/gh/tchiunam/axolgo-cloud)
 [![CodeQL](https://github.com/tchiunam/axolgo-cloud/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tchiunam/axolgo-cloud/actions/workflows/codeql-analysis.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/tchiunam/axolgo-cloud)](https://goreportcard.com/report/github.com/tchiunam/axolgo-cloud)
