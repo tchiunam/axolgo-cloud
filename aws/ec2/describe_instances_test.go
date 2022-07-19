@@ -23,25 +23,44 @@ THE SOFTWARE.
 package ec2
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/tchiunam/axolgo-cloud/aws/util"
 )
 
-// TestRunDescribeInstances calls RunDescribeInstances
+// MockAWSConfigOptions is a mock implementation of AWSConfigOptions
+// that can be used for testing error.
+func MockWithAWSConfigError(v string) util.AWSConfigOptionsFunc {
+	return func(o *util.AWSConfigOptions) error {
+		o.Region = v
+		return fmt.Errorf("mock error")
+	}
+}
+
+// TestRunDescribeInstancesInvalid calls RunDescribeInstances
 // and expects error since the AWS credentials are not set.
-func TestRunDescribeInstances(t *testing.T) {
+func TestRunDescribeInstancesInvalid(t *testing.T) {
 	cases := map[string]struct {
 		input               *ec2.DescribeInstancesInput
+		optFns              func(*util.AWSConfigOptions) error
 		expectStringInError string
 	}{
 		"nil input": {
 			input:               nil,
+			optFns:              nil,
 			expectStringInError: "failed to retrieve credentials",
 		},
 		"input with no filter": {
 			input:               &ec2.DescribeInstancesInput{Filters: nil},
+			optFns:              nil,
+			expectStringInError: "failed to retrieve credentials",
+		},
+		"nil input with error AWS config": {
+			input:               nil,
+			optFns:              MockWithAWSConfigError("us-east-1"),
 			expectStringInError: "failed to retrieve credentials",
 		},
 	}
