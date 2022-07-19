@@ -23,11 +23,22 @@ THE SOFTWARE.
 package rds
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
+	"github.com/tchiunam/axolgo-cloud/aws/util"
 	"github.com/tchiunam/axolgo-lib/types"
 )
+
+// MockAWSConfigOptions is a mock implementation of AWSConfigOptions
+// that can be used for testing error.
+func MockWithAWSConfigErrorMCDBPG(v string) util.AWSConfigOptionsFunc {
+	return func(o *util.AWSConfigOptions) error {
+		o.Region = v
+		return fmt.Errorf("mock error")
+	}
+}
 
 // TestRunModifyDBClusterParameterGroupInvaoid calls RunModifyDBClusterParameterGroup
 // and expects error since the AWS credentials are not set.
@@ -39,6 +50,7 @@ func TestRunModifyDBClusterParameterGroupInvalid(t *testing.T) {
 		parameterGroupName  string
 		staticParameters    []types.Parameter
 		dynamicParameters   []types.Parameter
+		optFns              func(*util.AWSConfigOptions) error
 		expectStringInError string
 	}{
 		"static params": {
@@ -47,6 +59,24 @@ func TestRunModifyDBClusterParameterGroupInvalid(t *testing.T) {
 				Name:  &paramName,
 				Value: &paramValue,
 			}},
+			dynamicParameters: []types.Parameter{{
+				Name:  &paramName,
+				Value: &paramValue,
+			}},
+			optFns:              util.WithRegion("us-east-1"),
+			expectStringInError: "failed to retrieve credentials",
+		},
+		"nil input with error AWS config": {
+			parameterGroupName: "dev-db-parameter-group",
+			staticParameters: []types.Parameter{{
+				Name:  &paramName,
+				Value: &paramValue,
+			}},
+			dynamicParameters: []types.Parameter{{
+				Name:  &paramName,
+				Value: &paramValue,
+			}},
+			optFns:              MockWithAWSConfigErrorMCDBPG("us-east-1"),
 			expectStringInError: "failed to retrieve credentials",
 		},
 	}
