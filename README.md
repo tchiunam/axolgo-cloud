@@ -34,6 +34,17 @@ go get github.com/tchiunam/axolgo-cloud@none
 
 See 'go help get' or https://golang.org/ref/mod#go-get for details.
 
+## Run test
+To run test:
+```
+go test ./...
+```
+
+To run test with coverage result:
+```
+go test -coverpkg=./... ./...
+```
+
 ## Test report
 ## Code Coverage graph
 ![Code Coverage graph](https://codecov.io/gh/tchiunam/axolgo-cloud/branch/main/graphs/tree.svg?token=7Q6I4OXAS8)
