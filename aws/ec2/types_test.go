@@ -22,7 +22,11 @@ THE SOFTWARE.
 
 package ec2
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 // TestSecurityGroupIDTemplateString verifies the creation
 // of SecurityGroupIDTemplateString.
@@ -44,8 +48,6 @@ func TestTagsTemplateString(t *testing.T) {
 	ExpectString := "{{range $i, $v := .Tags}}{{if $i}}, {{end}}{{`{`}}{{.Key}}: {{.Value}}{{`}`}}{{end}}"
 
 	t.Run("default", func(t *testing.T) {
-		if TagsTemplateString != ExpectString {
-			t.Errorf("Expected %s, got %s, case %q", ExpectString, TagsTemplateString, name)
-		}
+		assert.Equal(t, ExpectString, TagsTemplateString, "Expected %s, got %s, case %q", ExpectString, TagsTemplateString, name)
 	})
 }

@@ -24,9 +24,9 @@ package rds
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/tchiunam/axolgo-cloud/aws/util"
 	"github.com/tchiunam/axolgo-lib/types"
 )
@@ -84,9 +84,11 @@ func TestRunModifyDBClusterParameterGroupInvalid(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			_, err := RunModifyDBClusterParameterGroup(c.parameterGroupName, c.staticParameters, c.dynamicParameters)
-			if !strings.Contains(err.Error(), c.expectStringInError) {
-				t.Errorf("Expected error containing %q, got %s", c.expectStringInError, err)
-			}
+			assert.ErrorContains(
+				t,
+				err,
+				c.expectStringInError,
+				"Expected error containing %q, got %s", c.expectStringInError, err)
 		})
 	}
 }

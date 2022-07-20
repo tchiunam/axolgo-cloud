@@ -10,7 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/rds v1.21.2
 	github.com/googleapis/gax-go/v2 v2.4.0
 	github.com/stretchr/testify v1.8.0
-	github.com/tchiunam/axolgo-lib v0.1.0
+	github.com/tchiunam/axolgo-lib v0.1.2
 	google.golang.org/api v0.86.0
 	google.golang.org/genproto v0.0.0-20220630174209-ad1d48641aa7
 	k8s.io/klog/v2 v2.60.1
