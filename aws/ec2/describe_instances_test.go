@@ -24,10 +24,10 @@ package ec2
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/stretchr/testify/assert"
 	"github.com/tchiunam/axolgo-cloud/aws/util"
 )
 
@@ -68,9 +68,11 @@ func TestRunDescribeInstancesInvalid(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			_, _, err := RunDescribeInstances(c.input)
-			if !strings.Contains(err.Error(), c.expectStringInError) {
-				t.Errorf("Expected error containing %q, got %s", c.expectStringInError, err)
-			}
+			assert.ErrorContains(
+				t,
+				err,
+				c.expectStringInError,
+				"Expected error containing %q, got %s", c.expectStringInError, err)
 		})
 	}
 }
